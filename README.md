@@ -1,5 +1,6 @@
 # Bish-Valentines
 Files for processing data for Bishop's Valentines and files to firebase website hosting
+
 # Description of files
 
 9Scrape.html  - Data pulled from WhippleHill search for 9th graders
@@ -19,24 +20,26 @@ firebase.json  - Used by Firebase to push files GENERATED WHEN INTIALIZING FIREB
 public  - Contains website files (replace firebase scripts in html with your project scripts)
 
 # Instructions
-Initialize firebase project in directory of downloaded files.
-Note: processData.py requires BeautifulSoup library installed in order to scrape html
-1. Aquire googlescript data. This is not in any useable format, so we need to process it with processData.py
-2. Download html queries to files. Do a WhippleHill search for each grade level and scroll to the bottom to load all students. View souce and copy inner html of element with id="directory-items-container" then paste into corresponding html file
-3. Get list of unique gender responses and set genderList equal to it. emailPatchList will be populated later.
-4. Put data through processData.py. Set stringDict to a string of googlescript data. Run convertStringToDict(stringDict). Some students have email visibility turned off in whipplehill, so search completedDict.txt for @bishops.com and add each address to emailPatchList. Put data through processData.py. Set stringDict to a string of googlescript data. Run convertStringToDict(stringDict).
-Now we have a valid data structure we can import into python. However, if we pushed this to firebase, it woulnd't process lists correctly and would be inefficient.
-5. Put new data through processData.py again. Set stringDict to the contents of completedDict.txt. Python will recognize this as a valid structure (list of nested dictoinaries). Run convertValidDictToPushFormat(stringDict). If you recieve a syntax error, check that the data structure is formatted propperly. If you see Keyerrored: [] your data is complete and you can move onto the next step. If not, your data from googlescript is incomplete.
-6. Make sure in firebase rules, write is set to true. Add the following lines to index.html below the other script tags, replacing '$data' with the data structure returned into "fullyProcessedDict.txt", and paste the path of the page into your browser:
+
+Initialize firebase project in directory of downloaded files. Instructions on how to do this can be found here: https://firebase.google.com/docs/web/setup
+Hosting and Realtime Database should be enabled when you initialize the project.
+
+Note: processData.py requires python3 and the BeautifulSoup library installed in order to scrape html.
+To install the newest version of python3: https://www.python.org/downloads/
+To install libraries in python: https://packaging.python.org/tutorials/installing-packages/
+
+1. Copy the GoogleScript file to your google drive: https://script.google.com/d/1-1gyYickzpFOlmM7Uq293q5mz-dJKtoCFGUOhxA7_O4V5oWoEQSzoxcb/edit?usp=sharing
+2. Update answers to current year's answers, spreadsheet ID, and google doc output link
+3. Run GoogleScript. Output in the google doc should look like this:
+4. Download html queries to files. Do a WhippleHill search for each grade level and scroll to the bottom to load all students. View source and copy inner html of element with id="directory-items-container" then paste into corresponding html file
+5. Put data through processData.py by copying google document contents to the value of userDict and running the script
+6. Replace the firebase scripts in index.html and results.html with those from your new firebase project (found by clicking "Add Firebase to your web app" on the project overview page)
+6. Make sure in firebase rules, write is set to true. Add the following lines to index.html below the other script tags, replacing '$data' with the data structure returned into the processData.py output file, and paste the path of the page into your browser (something like /home/yourname/Documents/Bish-Valentines/public/index.html):
 ```
 <script>
 firebase.database().ref().set( $data
 );
 </script>
 ```
-7. Your data should be uploaded to firebase. SET WRITE TO FALSE AND READ TO TRUE. Deploy the firebase website.
-
-# Note about GoogleScript Code and Questions
-Sahil Malhotra has not documented how he ran the GoogleScript code Kevin Chen wrote and gave him. Therefore not included in this repository. Please get in contact with him in order to get the matching algorithm and instructions on how to run it.
-
-Any questions regarding the python script or website files can be addressed to Jeremy Gleeson or you can open an issue on the respository.
+7. Your data should be uploaded to firebase. Make sure to set read to true and write to false for the whole database before moving to the next step.
+8. Deploy the web files to firebase.
