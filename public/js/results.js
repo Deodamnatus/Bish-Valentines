@@ -53,8 +53,15 @@ function createMatchElement(name, gender, grade, pic, match){
 
 function fetchResults() {
   database.ref(window.email).once('value').then( function(snapshot) {
-    if (snapshot.val().name){
-      titleBox.innerHTML='Top 5 Matches For ' + snapshot.val().name.trim().split(' ')[0];
+    try {
+      if (snapshot.val().name){
+        titleBox.innerHTML='Top 5 Matches For ' + snapshot.val().name.trim().split(' ')[0];
+        console.log('Name: ' +  snapshot.val().name.trim().split(' ')[0]);
+      }
+    }
+    catch(err) {
+        titleBox.innerHTML='Top 5 Matches';
+        console.log('Error getting name...')
     }
     snapshot.child('matches').forEach(function(childSnapshot) {
       database.ref(childSnapshot.key).once('value').then( function(matchSnapshot) {
