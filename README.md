@@ -29,7 +29,7 @@ To install the newest version of python3: https://www.python.org/downloads/
 To install libraries in python: https://packaging.python.org/tutorials/installing-packages/
 
 1. Copy the GoogleScript file to your google drive: https://script.google.com/d/1-1gyYickzpFOlmM7Uq293q5mz-dJKtoCFGUOhxA7_O4V5oWoEQSzoxcb/edit?usp=sharing
-2. Update answers to current year's answers, spreadsheet ID, and google doc output link
+2. Update answers to current year's answers, spreadsheet ID, and google doc output link, and numbers for data to pull (contact Sahil for this)
 3. Run GoogleScript. Output in the google doc should look like a bunch of nested dictionaries.
 4. Download html queries to files. Do a WhippleHill search for each grade level and scroll to the bottom to load all students. View source and copy inner html of element with id="directory-items-container" then paste into corresponding html file
 5. Put data through processData.py by copying google document contents to the value of userDict and running the script
